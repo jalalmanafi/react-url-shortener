@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import CopyToClipboard from "react-copy-to-clipboard";
 
 const LinkResult = ({ inputValue }) => {
   const [shortenLink, setShortenLink] = useState("");
@@ -42,9 +41,7 @@ const LinkResult = ({ inputValue }) => {
   return (
     <div className="result">
       {!!shortenLink && <p>{shortenLink}</p>}
-      <CopyToClipboard text={shortenLink} onCopy={() => setCopied(true)}>
-        <button className={copied ? "copied" : ""}>Copy to clipboard</button>
-      </CopyToClipboard>
+      <button className={copied ? "copied" : ""}>Copy to clipboard</button>
     </div>
   );
 };
