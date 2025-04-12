@@ -2,11 +2,14 @@
   "name": "url-shortener",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.3",
     "@vitejs/plugin-react": "^4.3.4",
     "axios": "^1.8.4",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "tailwindcss": "^4.1.3"
   },
   "scripts": {
     "dev": "vite",
