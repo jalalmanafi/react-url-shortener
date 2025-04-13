@@ -2,7 +2,7 @@
 
 A simple URL shortener application built with ReactJS, Vite, and TailwindCSS that uses the TinyURL API to create shortened URLs.
 
-![React URL Shortener](https://i.imgur.com/placeholder.png)
+![React URL Shortener](https://github.com/jalalmanafi/react-url-shortener/blob/master/src/assets/images/screenshot.png)
 
 ## Live Demo
 
