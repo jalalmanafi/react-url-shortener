@@ -1,18 +1,17 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { validURLChecker } from "./helper/validURLChecker";
 
-import Copy from "./assets/icons/copy.svg";
-import Check from "./assets/icons/check.svg";
 import Title from "./components/Title";
+import Result from "./components/Result";
 import Loader from "./components/Loader";
 import ErrorMessage from "./components/ErrorMessage";
+import Github from "./components/Github";
 
 function App() {
   const [link, setLink] = useState("");
   const [error, setError] = useState("");
-  const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
   const [shortenedLink, setShortenedLink] = useState("");
 
@@ -20,6 +19,9 @@ function App() {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const createShortLink = () => {
+    if (shortenedLink) {
+      setShortenedLink("");
+    }
     if (validURLChecker(link)) {
       setLoading(true);
       axios
@@ -51,26 +53,11 @@ function App() {
     }
   };
 
-  const copyToClipboard = () => {
-    if (shortenedLink) {
-      window.navigator.clipboard.writeText(shortenedLink).then(() => {
-        setCopied(true);
-      });
-    }
-  };
-
-  useEffect(() => {
-    const expireCopyTime = setTimeout(() => {
-      setCopied(false);
-    }, 1500);
-
-    return () => clearTimeout(expireCopyTime);
-  }, [copied]);
-
   if (loading) return <Loader />;
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center bg-transparent">
+      <Github />
       <Title />
       <div className="w-96 flex justify-between items-center gap-2">
         <input
@@ -89,26 +76,10 @@ function App() {
           Short link
         </button>
       </div>
-      <div>
-        {shortenedLink && window.navigator.clipboard && (
-          <div className="mt-3 flex justify-center items-center gap-2">
-            <p className="text-base border border-slate-800 p-2 rounded-md">
-              {shortenedLink}
-            </p>
-            <button
-              className="rounded-md bg-transparent p-2 cursor-pointer border border-slate-800 text-center text-sm text-slate-800 transition-all shadow-md hover:shadow-lg focus:bg-transparent focus:shadow-none active:bg-transparent hover:bg-transparent active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-              onClick={copyToClipboard}
-            >
-              {copied ? (
-                <img src={Check} alt="Check icon" />
-              ) : (
-                <img src={Copy} alt="Copy icon" />
-              )}
-            </button>
-          </div>
-        )}
+      <>
+        <Result shortenedLink={shortenedLink} />
         <ErrorMessage errorMessage={error} />
-      </div>
+      </>
     </div>
   );
 }
