@@ -5,29 +5,32 @@ import { validURLChecker } from "./helper/validURLChecker";
 
 import Copy from "./assets/icons/copy.svg";
 import Check from "./assets/icons/check.svg";
+import Title from "./components/Title";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
 
 function App() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [link, setLink] = useState("");
-  const [shortenedLink, setShortenedLink] = useState("");
+  const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [shortenedLink, setShortenedLink] = useState("");
+
+  const apiKey = import.meta.env.VITE_URL_SHORTENER_KEY;
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const createShortLink = () => {
     if (validURLChecker(link)) {
       setLoading(true);
       axios
-        .post(
-          `https://api.tinyurl.com/create?api_token=y1SRRICkItO5MKkzWEECOUe4HBc6otoIi4CH3NcomUK3AZCj9tOVKQn3T2Bd`,
-          {
-            url: link,
-            domain: "tinyurl.com",
-            alias: "",
-            tags: "",
-            expires_at: "",
-            description: "PLEASEEEE WORK",
-          }
-        )
+        .post(`${BASE_URL}/create?api_token=${apiKey}`, {
+          url: link,
+          domain: "tinyurl.com",
+          alias: "",
+          tags: "",
+          expires_at: "",
+          description: "PLEASEEEE WORK",
+        })
         .then((result) => {
           const {
             data: {
@@ -44,12 +47,12 @@ function App() {
           setLoading(false);
         });
     } else {
-      setError("Please enter valid URL")
+      setError("Please enter valid URL");
     }
   };
 
   const copyToClipboard = () => {
-    if (link) {
+    if (shortenedLink) {
       window.navigator.clipboard.writeText(shortenedLink).then(() => {
         setCopied(true);
       });
@@ -64,16 +67,11 @@ function App() {
     return () => clearTimeout(expireCopyTime);
   }, [copied]);
 
-  if (loading)
-    return (
-      <div className="w-full h-screen flex justify-center items-center text-4xl text-slate-800 font-extrabold">
-        Loading...
-      </div>
-    );
+  if (loading) return <Loader />;
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center bg-transparent">
-      <h1 className="font-bold text-4xl mb-5">React URL Shortener</h1>
+      <Title />
       <div className="w-96 flex justify-between items-center gap-2">
         <input
           type="text"
@@ -109,11 +107,7 @@ function App() {
             </button>
           </div>
         )}
-        {error && (
-          <div className="mt-3 text-lg text-red-500 font-bold">
-            {error || "Something went wrong"}
-          </div>
-        )}
+        <ErrorMessage errorMessage={error} />
       </div>
     </div>
   );
