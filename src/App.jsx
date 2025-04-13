@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+import { validURLChecker } from "./helper/validURLChecker";
+
 import Copy from "./assets/icons/copy.svg";
 import Check from "./assets/icons/check.svg";
 
@@ -12,34 +14,38 @@ function App() {
   const [copied, setCopied] = useState(false);
 
   const createShortLink = () => {
-    setLoading(true);
-    axios
-      .post(
-        `https://api.tinyurl.com/create?api_token=y1SRRICkItO5MKkzWEECOUe4HBc6otoIi4CH3NcomUK3AZCj9tOVKQn3T2Bd`,
-        {
-          url: link,
-          domain: "tinyurl.com",
-          alias: "",
-          tags: "",
-          expires_at: "",
-          description: "PLEASEEEE WORK",
-        }
-      )
-      .then((result) => {
-        const {
-          data: {
-            data: { tiny_url },
-          },
-        } = result || {};
-        if (tiny_url) {
-          setShortenedLink(tiny_url);
-        }
-      })
-      .catch((err) => setError(err?.message))
-      .finally(() => {
-        setLink("");
-        setLoading(false);
-      });
+    if (validURLChecker(link)) {
+      setLoading(true);
+      axios
+        .post(
+          `https://api.tinyurl.com/create?api_token=y1SRRICkItO5MKkzWEECOUe4HBc6otoIi4CH3NcomUK3AZCj9tOVKQn3T2Bd`,
+          {
+            url: link,
+            domain: "tinyurl.com",
+            alias: "",
+            tags: "",
+            expires_at: "",
+            description: "PLEASEEEE WORK",
+          }
+        )
+        .then((result) => {
+          const {
+            data: {
+              data: { tiny_url },
+            },
+          } = result || {};
+          if (tiny_url) {
+            setShortenedLink(tiny_url);
+          }
+        })
+        .catch((err) => setError(err?.message))
+        .finally(() => {
+          setLink("");
+          setLoading(false);
+        });
+    } else {
+      setError("Please enter valid URL")
+    }
   };
 
   const copyToClipboard = () => {
@@ -104,7 +110,7 @@ function App() {
           </div>
         )}
         {error && (
-          <div className="text-lg text-red-500 font-bold">
+          <div className="mt-3 text-lg text-red-500 font-bold">
             {error || "Something went wrong"}
           </div>
         )}
