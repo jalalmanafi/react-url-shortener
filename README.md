@@ -99,3 +99,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [Vite](https://vitejs.dev/) for the build tool
 - [TailwindCSS](https://tailwindcss.com/) for the styling framework
 - [Vercel](https://vercel.com/) for hosting and deployment
+- [Vitest](https://vitest.dev/) for unit testing
