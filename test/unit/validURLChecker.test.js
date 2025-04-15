@@ -6,7 +6,7 @@ describe("validURLChecker function", () => {
 
   describe("Invlaid URLs", () => {
     test("Plain text without domain should fail", () => {
-      expect(validURLChecker("reacturlshortener")).equal(false);
+        expect(validURLChecker("react-url-shortener-iota")).equal(false);
     });
 
     test("Epmty string should fail", () => {
@@ -17,15 +17,15 @@ describe("validURLChecker function", () => {
 
   describe("Valid URLs", () => {
     test("Domain only should pass", () => {
-      expect(validURLChecker("reacturlshortener.com")).equal(true);
+        expect(validURLChecker("react-url-shortener-iota.vercel.app")).equal(true);
     });
 
     test("URL with HTTPS protocol should pass", () => {
-      expect(validURLChecker("https://reacturlshortener.com")).equal(true);
+        expect(validURLChecker("https://react-url-shortener-iota.vercel.app")).equal(true);
     });
 
     test("URL with HTTP protocol should pass", () => {
-        expect(validURLChecker("http://reacturlshortener.com")).equal(true);
+        expect(validURLChecker("http://react-url-shortener-iota.vercel.app")).equal(true);
       });
   });
 });
