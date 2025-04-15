@@ -1,3 +1,9 @@
+/**
+ *
+ * @param {string} url
+ * @returns
+ */
+
 export const validURLChecker = (url) => {
     const pattern = new RegExp(
       '^([a-zA-Z]+:\\/\\/)?' + // protocol
