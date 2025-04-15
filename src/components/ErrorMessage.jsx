@@ -1,5 +1,3 @@
-import { memo } from "react";
-
 const ErrorMessage = ({ errorMessage }) => {
   return (
     errorMessage && (
@@ -10,4 +8,4 @@ const ErrorMessage = ({ errorMessage }) => {
   );
 };
 
-export default memo(ErrorMessage);
+export default ErrorMessage;
