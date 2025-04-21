@@ -8,22 +8,25 @@ const Form = ({ setError, setShortenedLink, setLoading, shortenedLink }) => {
 
   const apiKey = import.meta.env.VITE_URL_SHORTENER_KEY;
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const DOMAIN = "tinyurl.com";
+  const DESCRIPTION = "Static description"
 
   const createShortLink = () => {
+    const body = {
+      url: link,
+      domain: DOMAIN,
+      alias: "",
+      tags: "",
+      expires_at: "",
+      description: DESCRIPTION,
+    };
     if (shortenedLink) {
       setShortenedLink("");
     }
     if (validURLChecker(link)) {
       setLoading(true);
       axios
-        .post(`${BASE_URL}/create?api_token=${apiKey}`, {
-          url: link,
-          domain: "tinyurl.com",
-          alias: "",
-          tags: "",
-          expires_at: "",
-          description: "PLEASEEEE WORK",
-        })
+        .post(`${BASE_URL}/create?api_token=${apiKey}`, body)
         .then((result) => {
           const {
             data: {
